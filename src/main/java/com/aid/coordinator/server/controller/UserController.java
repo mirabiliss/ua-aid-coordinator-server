@@ -2,6 +2,9 @@ package com.aid.coordinator.server.controller;
 
 import com.aid.coordinator.server.entity.User;
 import com.aid.coordinator.server.service.UserService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -9,8 +12,11 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@Slf4j
+@CrossOrigin
 @RestController
 @RequestMapping("/users")
+@Tag(name = "Users")
 public class UserController {
 
   private final UserService userService;
@@ -20,14 +26,18 @@ public class UserController {
     this.userService = userService;
   }
 
+  @Operation(summary = "Get all users")
   @GetMapping
   public ResponseEntity<List<User>> getAllUsers() {
+    log.info("Getting all users");
     List<User> users = userService.getAllUsers();
     return new ResponseEntity<>(users, HttpStatus.OK);
   }
 
+  @Operation(summary = "Get user by ID")
   @GetMapping("/{id}")
   public ResponseEntity<User> getUserById(@PathVariable Long id) {
+    log.info("Getting user by id {}", id);
     User user = userService.getUserById(id);
     if (user != null) {
       return new ResponseEntity<>(user, HttpStatus.OK);
@@ -36,14 +46,30 @@ public class UserController {
     }
   }
 
+  @Operation(summary = "Find user in DB")
+  @PostMapping("/login")
+  public ResponseEntity<User> findByEmailAndPassword(@RequestBody User user) {
+    log.info("Getting user by email {} and password {}", user.getEmail(), user.getPassword());
+    User resUser = userService.findByEmailAndPassword(user.getEmail(), user.getPassword());
+    if (resUser != null) {
+      return new ResponseEntity<>(resUser, HttpStatus.OK);
+    } else {
+      return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+  }
+
+  @Operation(summary = "Create user")
   @PostMapping
   public ResponseEntity<User> createUser(@RequestBody User user) {
+    log.info("Creating user with email {}", user.getEmail());
     User createdUser = userService.createUser(user);
     return new ResponseEntity<>(createdUser, HttpStatus.CREATED);
   }
 
+  @Operation(summary = "Update user")
   @PutMapping("/{id}")
   public ResponseEntity<User> updateUser(@PathVariable Long id, @RequestBody User user) {
+    log.info("Updating user with email {}", user.getEmail());
     user.setId(id);
     User updatedUser = userService.updateUser(user);
     if (updatedUser != null) {
@@ -53,8 +79,10 @@ public class UserController {
     }
   }
 
+  @Operation(summary = "Delete user")
   @DeleteMapping("/{id}")
   public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
+    log.info("Deleting user with id {}", id);
     userService.deleteUser(id);
     return new ResponseEntity<>(HttpStatus.NO_CONTENT);
   }

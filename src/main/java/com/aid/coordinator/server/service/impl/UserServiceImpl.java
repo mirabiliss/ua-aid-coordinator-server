@@ -31,6 +31,12 @@ public class UserServiceImpl implements UserService {
   }
 
   @Override
+  public User findByEmailAndPassword(String email, String password) {
+    Optional<User> optionalUser = userRepository.findByEmailAndPassword(email, password);
+    return optionalUser.orElse(null);
+  }
+
+  @Override
   public User createUser(User user) {
     return userRepository.save(user);
   }

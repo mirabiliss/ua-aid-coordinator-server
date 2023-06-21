@@ -1,10 +1,10 @@
 package com.aid.coordinator.server.entity;
 
-import lombok.Data;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import org.apache.commons.lang3.builder.ToStringExclude;
 import org.hibernate.Hibernate;
 
 import javax.persistence.CascadeType;
@@ -49,6 +49,7 @@ public class User {
   @Column(name = "password", columnDefinition = "TEXT")
   private String password;
 
+  @ToStringExclude
   @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval=true)
   List<Request> requests;
 

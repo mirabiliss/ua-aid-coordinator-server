@@ -10,6 +10,4 @@ class ServerApplicationTests {
 	void contextLoads() {
 	}
 
-
-
 }

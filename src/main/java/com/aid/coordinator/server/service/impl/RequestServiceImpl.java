@@ -1,6 +1,8 @@
 package com.aid.coordinator.server.service.impl;
 
+import com.aid.coordinator.server.dto.RequestDto;
 import com.aid.coordinator.server.entity.Request;
+import com.aid.coordinator.server.mapper.RequestMapper;
 import com.aid.coordinator.server.repository.RequestRepository;
 import com.aid.coordinator.server.service.RequestService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,10 +15,13 @@ import java.util.Optional;
 public class RequestServiceImpl implements RequestService {
 
   private final RequestRepository requestRepository;
+  private final RequestMapper requestMapper;
+
 
   @Autowired
-  public RequestServiceImpl(RequestRepository requestRepository) {
+  public RequestServiceImpl(RequestRepository requestRepository, RequestMapper requestMapper) {
     this.requestRepository = requestRepository;
+    this.requestMapper = requestMapper;
   }
 
   @Override
@@ -31,8 +36,8 @@ public class RequestServiceImpl implements RequestService {
   }
 
   @Override
-  public Request createRequest(Request request) {
-    return requestRepository.save(request);
+  public Request createRequest(RequestDto requestDto) {
+    return requestRepository.save(requestMapper.convertToEntity(requestDto));
   }
 
   @Override
