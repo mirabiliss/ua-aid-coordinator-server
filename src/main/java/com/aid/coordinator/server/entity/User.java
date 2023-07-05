@@ -17,7 +17,6 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import java.util.List;
-import java.util.Objects;
 
 @Getter
 @Setter
@@ -27,38 +26,43 @@ import java.util.Objects;
 @Table(name = "users")
 public class User {
 
+  public static final String TEXT = "TEXT";
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  @Column(name = "userRole", columnDefinition = "TEXT")
+  @Column(name = "userRole", columnDefinition = TEXT)
   private String role = "SIMPLE_USER";
 
-  @Column(name = "name", columnDefinition = "TEXT")
+  @Column(name = "name", columnDefinition = TEXT)
   private String name;
 
-  @Column(name = "surname", columnDefinition = "TEXT")
+  @Column(name = "surname", columnDefinition = TEXT)
   private String surname;
 
-  @Column(name = "email", columnDefinition = "TEXT")
+  @Column(name = "email", columnDefinition = TEXT)
   private String email;
 
-  @Column(name = "phoneNumber", columnDefinition = "TEXT")
+  @Column(name = "phoneNumber", columnDefinition = TEXT)
   private String phoneNumber;
 
-  @Column(name = "password", columnDefinition = "TEXT")
+  @Column(name = "password", columnDefinition = TEXT)
   private String password;
 
   @ToStringExclude
   @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval=true)
-  List<Request> requests;
+  private List<Request> requests;
 
   @Override
-  public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
-    User user = (User) o;
-    return id != null && Objects.equals(id, user.id);
+  public boolean equals(final Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) {
+      return false;
+    }
+    final User user = (User) o;
+    return id != null && id.equals(user.id);
   }
 
   @Override

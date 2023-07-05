@@ -19,7 +19,7 @@ public class RequestServiceImpl implements RequestService {
 
 
   @Autowired
-  public RequestServiceImpl(RequestRepository requestRepository, RequestMapper requestMapper) {
+  public RequestServiceImpl(final RequestRepository requestRepository, final RequestMapper requestMapper) {
     this.requestRepository = requestRepository;
     this.requestMapper = requestMapper;
   }
@@ -30,18 +30,18 @@ public class RequestServiceImpl implements RequestService {
   }
 
   @Override
-  public Request getRequestById(Long id) {
-    Optional<Request> optionalRequest = requestRepository.findById(id);
+  public Request getRequestById(final Long id) {
+    final Optional<Request> optionalRequest = requestRepository.findById(id);
     return optionalRequest.orElse(null);
   }
 
   @Override
-  public Request createRequest(RequestDto requestDto) {
+  public Request createRequest(final RequestDto requestDto) {
     return requestRepository.save(requestMapper.convertToEntity(requestDto));
   }
 
   @Override
-  public Request updateRequest(Request request) {
+  public Request updateRequest(final Request request) {
     if (requestRepository.existsById(request.getId())) {
       return requestRepository.save(request);
     }
@@ -49,7 +49,7 @@ public class RequestServiceImpl implements RequestService {
   }
 
   @Override
-  public void deleteRequest(Long id) {
+  public void deleteRequest(final Long id) {
     requestRepository.deleteById(id);
   }
 }

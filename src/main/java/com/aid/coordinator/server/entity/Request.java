@@ -1,8 +1,6 @@
 package com.aid.coordinator.server.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import lombok.Builder;
-import lombok.Data;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -18,7 +16,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import java.util.Objects;
 
 @Getter
 @Setter
@@ -28,6 +25,7 @@ import java.util.Objects;
 @Table(name = "requests")
 public class Request {
 
+  public static final String TEXT = "TEXT";
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
@@ -37,24 +35,28 @@ public class Request {
   @JoinColumn(name = "user_id", nullable = false)
   private User user;
 
-  @Column(name = "location", columnDefinition = "TEXT")
+  @Column(name = "location", columnDefinition = TEXT)
   private String location;
 
-  @Column(name = "category", columnDefinition = "TEXT")
+  @Column(name = "category", columnDefinition = TEXT)
   private String category;
 
-  @Column(name = "description", columnDefinition = "TEXT")
+  @Column(name = "description", columnDefinition = TEXT)
   private String description;
 
-  @Column(name = "status", columnDefinition = "TEXT")
+  @Column(name = "status", columnDefinition = TEXT)
   private String status;
 
   @Override
-  public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
-    Request request = (Request) o;
-    return id != null && Objects.equals(id, request.id);
+  public boolean equals(final Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) {
+      return false;
+    }
+    final Request request = (Request) o;
+    return id != null && id.equals(request.id);
   }
 
   @Override

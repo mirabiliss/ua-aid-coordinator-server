@@ -15,7 +15,7 @@ public class UserServiceImpl implements UserService {
   private final UserRepository userRepository;
 
   @Autowired
-  public UserServiceImpl(UserRepository userRepository) {
+  public UserServiceImpl(final UserRepository userRepository) {
     this.userRepository = userRepository;
   }
 
@@ -25,24 +25,24 @@ public class UserServiceImpl implements UserService {
   }
 
   @Override
-  public User getUserById(Long id) {
-    Optional<User> optionalUser = userRepository.findById(id);
+  public User getUserById(final Long id) {
+    final Optional<User> optionalUser = userRepository.findById(id);
     return optionalUser.orElse(null);
   }
 
   @Override
-  public User findByEmailAndPassword(String email, String password) {
-    Optional<User> optionalUser = userRepository.findByEmailAndPassword(email, password);
+  public User findByEmailAndPassword(final String email, final String password) {
+    final Optional<User> optionalUser = userRepository.findByEmailAndPassword(email, password);
     return optionalUser.orElse(null);
   }
 
   @Override
-  public User createUser(User user) {
+  public User createUser(final User user) {
     return userRepository.save(user);
   }
 
   @Override
-  public User updateUser(User user) {
+  public User updateUser(final User user) {
     if (userRepository.existsById(user.getId())) {
       return userRepository.save(user);
     }
@@ -50,7 +50,7 @@ public class UserServiceImpl implements UserService {
   }
 
   @Override
-  public void deleteUser(Long id) {
+  public void deleteUser(final Long id) {
     userRepository.deleteById(id);
   }
 }

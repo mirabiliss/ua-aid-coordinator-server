@@ -23,7 +23,7 @@ public class RequestController {
   private final RequestMapper requestMapper;
 
   @Autowired
-  public RequestController(RequestService requestService, RequestMapper requestMapper) {
+  public RequestController(final RequestService requestService, final RequestMapper requestMapper) {
     this.requestService = requestService;
     this.requestMapper = requestMapper;
   }
@@ -31,15 +31,15 @@ public class RequestController {
   @Operation(summary = "Get all requests")
   @GetMapping
   public ResponseEntity<List<Request>> getAllRequests() {
-    List<Request> requests = requestService.getAllRequests();
+    final List<Request> requests = requestService.getAllRequests();
     return new ResponseEntity<>(requests, HttpStatus.OK);
   }
 
   @Operation(summary = "Get request by id")
   @GetMapping("/{id}")
-  public ResponseEntity<RequestDto> getRequestById(@PathVariable Long id) {
-    Request request = requestService.getRequestById(id);
-    RequestDto dto = requestMapper.convertToDto(request);
+  public ResponseEntity<RequestDto> getRequestById(final @PathVariable Long id) {
+    final Request request = requestService.getRequestById(id);
+    final RequestDto dto = requestMapper.convertToDto(request);
     if (dto != null) {
       return new ResponseEntity<>(dto, HttpStatus.OK);
     } else {
@@ -49,16 +49,16 @@ public class RequestController {
 
   @Operation(summary = "Create request")
   @PostMapping
-  public ResponseEntity<Request> createRequest(@RequestBody RequestDto requestDto) {
-    Request createdRequest = requestService.createRequest(requestDto);
+  public ResponseEntity<Request> createRequest(final @RequestBody RequestDto requestDto) {
+    final Request createdRequest = requestService.createRequest(requestDto);
     return new ResponseEntity<>(createdRequest, HttpStatus.CREATED);
   }
 
   @Operation(summary = "Update request")
   @PutMapping("/{id}")
-  public ResponseEntity<Request> updateRequest(@PathVariable Long id, @RequestBody Request request) {
+  public ResponseEntity<Request> updateRequest(final @PathVariable Long id, final @RequestBody Request request) {
     request.setId(id);
-    Request updatedRequest = requestService.updateRequest(request);
+    final Request updatedRequest = requestService.updateRequest(request);
     if (updatedRequest != null) {
       return new ResponseEntity<>(updatedRequest, HttpStatus.OK);
     } else {
@@ -68,7 +68,7 @@ public class RequestController {
 
   @Operation(summary = "Delete request")
   @DeleteMapping("/{id}")
-  public ResponseEntity<Void> deleteRequest(@PathVariable Long id) {
+  public ResponseEntity<Void> deleteRequest(final @PathVariable Long id) {
     requestService.deleteRequest(id);
     return new ResponseEntity<>(HttpStatus.NO_CONTENT);
   }

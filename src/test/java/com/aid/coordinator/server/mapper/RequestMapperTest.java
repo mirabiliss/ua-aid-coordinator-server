@@ -12,7 +12,7 @@ import org.mockito.MockitoAnnotations;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
-public class RequestMapperTest {
+class RequestMapperTest {
 
   @Mock
   private UserRepository userRepository;
@@ -26,7 +26,7 @@ public class RequestMapperTest {
   }
 
   @Test
-  public void testConvertToEntity() {
+  void testConvertToEntity() {
     // Arrange
     Long userId = 1L;
     String location = "Test Location";
@@ -58,7 +58,7 @@ public class RequestMapperTest {
   }
 
   @Test
-  public void testConvertToDto() {
+  void testConvertToDto() {
     // Arrange
     Long userId = 1L;
     String location = "Test Location";

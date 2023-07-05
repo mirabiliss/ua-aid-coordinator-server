@@ -12,8 +12,8 @@ public class RequestMapper {
 
   private UserRepository userRepository;
 
-  public Request convertToEntity(RequestDto requestDto) {
-    Request request = new Request();
+  public Request convertToEntity(final RequestDto requestDto) {
+    final Request request = new Request();
     request.setUser(userRepository.findById(requestDto.getUserId()).get());
     request.setLocation(requestDto.getLocation());
     request.setCategory(requestDto.getCategory());
@@ -22,7 +22,7 @@ public class RequestMapper {
     return request;
   }
 
-  public RequestDto convertToDto(Request request) {
+  public RequestDto convertToDto(final Request request) {
     return RequestDto.builder()
         .userId(request.getUser().getId())
         .location(request.getLocation())

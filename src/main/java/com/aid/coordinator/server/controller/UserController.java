@@ -22,7 +22,7 @@ public class UserController {
   private final UserService userService;
 
   @Autowired
-  public UserController(UserService userService) {
+  public UserController(final UserService userService) {
     this.userService = userService;
   }
 
@@ -30,15 +30,15 @@ public class UserController {
   @GetMapping
   public ResponseEntity<List<User>> getAllUsers() {
     log.info("Getting all users");
-    List<User> users = userService.getAllUsers();
+    final List<User> users = userService.getAllUsers();
     return new ResponseEntity<>(users, HttpStatus.OK);
   }
 
   @Operation(summary = "Get user by ID")
   @GetMapping("/{id}")
-  public ResponseEntity<User> getUserById(@PathVariable Long id) {
+  public ResponseEntity<User> getUserById(final @PathVariable Long id) {
     log.info("Getting user by id {}", id);
-    User user = userService.getUserById(id);
+    final User user = userService.getUserById(id);
     if (user != null) {
       return new ResponseEntity<>(user, HttpStatus.OK);
     } else {
@@ -48,9 +48,11 @@ public class UserController {
 
   @Operation(summary = "Find user in DB")
   @PostMapping("/login")
-  public ResponseEntity<User> findByEmailAndPassword(@RequestBody User user) {
-    log.info("Getting user by email {} and password {}", user.getEmail(), user.getPassword());
-    User resUser = userService.findByEmailAndPassword(user.getEmail(), user.getPassword());
+  public ResponseEntity<User> findByEmailAndPassword(final @RequestBody User user) {
+    if (log.isInfoEnabled()) {
+      log.info("Getting user by email {} and password {}", user.getEmail(), user.getPassword());
+    }
+    final User resUser = userService.findByEmailAndPassword(user.getEmail(), user.getPassword());
     if (resUser != null) {
       return new ResponseEntity<>(resUser, HttpStatus.OK);
     } else {
@@ -60,18 +62,22 @@ public class UserController {
 
   @Operation(summary = "Create user")
   @PostMapping
-  public ResponseEntity<User> createUser(@RequestBody User user) {
-    log.info("Creating user with email {}", user.getEmail());
-    User createdUser = userService.createUser(user);
+  public ResponseEntity<User> createUser(final @RequestBody User user) {
+    if (log.isInfoEnabled()) {
+      log.info("Creating user with email {}", user.getEmail());
+    }
+    final User createdUser = userService.createUser(user);
     return new ResponseEntity<>(createdUser, HttpStatus.CREATED);
   }
 
   @Operation(summary = "Update user")
   @PutMapping("/{id}")
-  public ResponseEntity<User> updateUser(@PathVariable Long id, @RequestBody User user) {
-    log.info("Updating user with email {}", user.getEmail());
+  public ResponseEntity<User> updateUser(final @PathVariable Long id, final @RequestBody User user) {
+    if (log.isInfoEnabled()) {
+      log.info("Updating user with email {}", user.getEmail());
+    }
     user.setId(id);
-    User updatedUser = userService.updateUser(user);
+    final User updatedUser = userService.updateUser(user);
     if (updatedUser != null) {
       return new ResponseEntity<>(updatedUser, HttpStatus.OK);
     } else {
@@ -81,8 +87,10 @@ public class UserController {
 
   @Operation(summary = "Delete user")
   @DeleteMapping("/{id}")
-  public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
-    log.info("Deleting user with id {}", id);
+  public ResponseEntity<Void> deleteUser(final @PathVariable Long id) {
+    if (log.isInfoEnabled()) {
+      log.info("Deleting user with id {}", id);
+    }
     userService.deleteUser(id);
     return new ResponseEntity<>(HttpStatus.NO_CONTENT);
   }
