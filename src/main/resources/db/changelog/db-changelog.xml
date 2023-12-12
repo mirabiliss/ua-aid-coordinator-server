@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.0.xsd">
+
+    <!-- Create a new table -->
+    <changeSet id="1" author="root">
+        <createTable tableName="example">
+            <column name="id" type="BIGINT">
+                <constraints primaryKey="true" nullable="false" />
+            </column>
+            <column name="name" type="VARCHAR(255)" />
+        </createTable>
+    </changeSet>
+
+    <!-- Add a new column to an existing table -->
+    <changeSet id="2" author="root">
+        <addColumn tableName="example">
+            <column name="description" type="TEXT" />
+        </addColumn>
+    </changeSet>
+
+    <!-- Insert data into a table -->
+    <changeSet id="3" author="root">
+        <insert tableName="example">
+            <column name="id" value="1" />
+            <column name="name" value="Item 1" />
+            <column name="description" value="Description for Item 1" />
+        </insert>
+        <insert tableName="example">
+            <column name="id" value="2" />
+            <column name="name" value="Item 2" />
+            <column name="description" value="Description for Item 2" />
+        </insert>
+    </changeSet>
+
+    <!-- Modify existing data in a table -->
+    <changeSet id="4" author="root">
+        <update tableName="example">
+            <column name="description" value="New Description for Item 1" />
+            <where>id = 1</where>
+        </update>
+    </changeSet>
+
+    <!-- Create an index on a table -->
+    <changeSet id="5" author="root">
+        <createIndex tableName="example" indexName="idx_name" unique="false">
+            <column name="name" />
+        </createIndex>
+    </changeSet>
+
+    <!-- Drop a table -->
+    <changeSet id="6" author="root">
+        <dropTable tableName="example" />
+    </changeSet>
+
+</databaseChangeLog>
